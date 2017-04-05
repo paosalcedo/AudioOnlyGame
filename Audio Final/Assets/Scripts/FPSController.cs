@@ -30,6 +30,10 @@ public class FPSController : MonoBehaviour {
 //
 //	public float verticalVelocity;
 //
+
+	public static FPSController instance;
+
+
 	void Start () {
 		thisAudio = GetComponent<AudioSource>();
 		thisAudio.pitch = startingPitch;
@@ -41,6 +45,7 @@ public class FPSController : MonoBehaviour {
 		rb.freezeRotation = true;
 		rb.useGravity = false;
 
+//***************************ADD SINGLETON **********************************//
 //		MINE
 //		rb.freezeRotation = true;
 //		rb.useGravity = true;
@@ -48,8 +53,10 @@ public class FPSController : MonoBehaviour {
 
 	void Update ()
 	{
-		thisAudio.pitch = remapRange(rb.velocity.magnitude, 0, 10, 0f, 1.5f);
-		thisAudio.pitch = Mathf.Clamp(thisAudio.pitch, 0f, 1.45f);	
+//Adjust pitch based on WASD movement.
+//		thisAudio.pitch = remapRange(rb.velocity.magnitude, 0, 10, 0f, 1.5f);
+		thisAudio.pitch = AudioDirector.remapRange(rb.velocity.magnitude, 0, 10, 0f, 1.5f);
+		thisAudio.pitch = Mathf.Clamp(thisAudio.pitch, 0f, 1.45f);
 	}
 	// Update is called once per frame
 
@@ -95,7 +102,6 @@ public class FPSController : MonoBehaviour {
 		Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 		targetVelocity = transform.TransformDirection(targetVelocity);
 		targetVelocity *= speed;
-		print(rb.velocity.magnitude);
 		// Apply a force that attempts to reach our target velocity
 		Vector3 velocity = rb.velocity;
 

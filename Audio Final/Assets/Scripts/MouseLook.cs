@@ -9,21 +9,32 @@ public class MouseLook : MonoBehaviour {
 	Vector2 mouseLook;
 	Vector2 smoothV;
 
+	public float mouseLookX;
 	public float sensitivity = 1.0f;
 	public float smoothing = 2.0f;
 
 	GameObject character;
 
-	void Start () {
+	public static MouseLook instance;
 
+	void Start () {
 		player = GameObject.Find("Player");		
 		character = this.transform.parent.gameObject;
-	}
+		if (instance == null) {
+			instance = this;
+			DontDestroyOnLoad (this);
+		} else {
+			Destroy(gameObject);
+		}
+ 	}
 	
 	// Update is called once per frame
 	void Update () {
+		mouseLookX = mouseLook.x;
 
 //		player.GetComponent<AudioSource>().volume = remapRange(mouseLook.y, -90, 90, 0f, 1f);
+
+// Pan stereo signal based on mouseX.
 		player.GetComponent<AudioSource>().panStereo = remapRange(mouseLook.x, -90, 90, -1f, 1f);
 
 		Vector2 mousePos = new Vector2 (Input.GetAxisRaw ("Mouse X"), Input.GetAxisRaw ("Mouse Y"));
