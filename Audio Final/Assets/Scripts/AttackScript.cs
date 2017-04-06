@@ -45,7 +45,7 @@ public class AttackScript : MonoBehaviour {
 	private void BasicAttack ()
 	{
 		if (Input.GetMouseButton (0) && !isFiring) {
-			
+			basicAttack.Play();
 			basicAttack.volume = 1;
 			aimLockOn = true;
 			aimCountdownOn = true;
