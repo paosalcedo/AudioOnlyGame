@@ -5,14 +5,14 @@ using UnityEngine;
 public class EnemyHitDetector : MonoBehaviour {
 
 	[SerializeField] float enemyVolume;
-	[SerializeField] float enemyPan;
+	float enemyPan;
 	[SerializeField] float precision;
 	AudioSource enemySound;
 
 	// Use this for initialization
 	void Start () {
-		enemyVolume = Random.Range(0f, 1f);
-		
+		enemyPan = Random.Range(-1f, 1f);
+		enemyVolume = Random.Range(0f, 1f);	
 		enemySound = GetComponent<AudioSource>();
 		enemySound.panStereo = enemyPan;
 		enemySound.volume = enemyVolume;
