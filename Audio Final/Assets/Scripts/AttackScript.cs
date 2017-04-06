@@ -5,15 +5,24 @@ using UnityEngine;
 public class AttackScript : MonoBehaviour {
 	
 	AudioSource basicAttack;
-	float attackPan; 
+	public float attackPan; 
 	public float aimLockTimeReset; 
 	bool aimLockOn;
 	float aimLockTime;
 	// Use this for initialization
+	
+	public static AttackScript instance;
+
 	void Start () {
 		basicAttack = GetComponent<AudioSource>();	
 		basicAttack.volume = 0;
 		aimLockOn = false;
+		if (instance == null) {
+			instance = this;
+			DontDestroyOnLoad (this);
+		} else {
+			Destroy(gameObject);
+		}
 	}
 	
 	// Update is called once per frame
@@ -30,15 +39,18 @@ public class AttackScript : MonoBehaviour {
 		LockAim();
 	}
 
+	bool isFiring;
 	bool aimCountdownOn;
 	
 	private void BasicAttack ()
 	{
-		if (Input.GetMouseButton (0)) {
+		if (Input.GetMouseButton (0) && !isFiring) {
+			
 			basicAttack.volume = 1;
 			aimLockOn = true;
 			aimCountdownOn = true;
 			attackPan = basicAttack.panStereo;
+			isFiring = true;
 
 			//start aim lock function with a bool.
 		} else {
@@ -52,14 +64,14 @@ public class AttackScript : MonoBehaviour {
 	{
 		if (aimCountdownOn == true) {		
 			aimLockTime -= Time.deltaTime;
-			Debug.Log("Aim counting down!");
-		}
+ 		}
 
 		if (aimLockTime > 0 && aimCountdownOn) {
 			basicAttack.panStereo = Mathf.Clamp(basicAttack.panStereo, attackPan, attackPan);
 		} else if (aimLockTime <= 0) {
 			aimLockOn = false;
 			aimCountdownOn = false;
+			isFiring = false;
 			aimLockTime = aimLockTimeReset;
 		}
 	}

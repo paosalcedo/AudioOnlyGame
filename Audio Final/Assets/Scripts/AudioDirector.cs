@@ -13,6 +13,7 @@ public class AudioDirector : MonoBehaviour {
 	void Update () {
 		
 	}
+
 	public static float remapRange(float oldValue, float oldMin, float oldMax, float newMin, float newMax )
    	{
 	     float newValue = 0;
