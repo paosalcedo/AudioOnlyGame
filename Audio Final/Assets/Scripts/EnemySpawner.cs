@@ -5,8 +5,9 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour {
 
 	public int killCount;
+	public int waveCount;
 //	public GameObject[] spawnedEnemies;
-	public float spawnInterval;
+	float spawnInterval;
  	public List<GameObject> enemies = new List<GameObject>();
 //	public GameObject[] enemies;
 	// Use this for initialization
@@ -19,8 +20,11 @@ public class EnemySpawner : MonoBehaviour {
 //		enemies.Add (Instantiate (Resources.Load ("Prefabs/BasicEnemy") as GameObject));
 		//Add all spawned enemies to an array "spawned enemies" for counting later.
 //		SpawnFirstWave();
-		spawnInterval = 1f;
- 		if (instance == null) {
+//		spawnInterval = 1f;
+		killCount = 0;
+		waveCount = 1;
+		SpawnWave();
+  		if (instance == null) {
 			instance = this;
 			DontDestroyOnLoad (this);
 		} else {
@@ -30,26 +34,25 @@ public class EnemySpawner : MonoBehaviour {
 
 	void Update ()
 	{
-		SpawnWave();
-//		SpawnRandomizer ();
+		if (killCount == waveCount) {
+			waveCount = Random.Range(1, 5);
+			Invoke("SpawnWave", 5f);
+			killCount = 0;
+		}
+
+//	spawnInterval -= Time.deltaTime; //count down spawn timer
+
+ //		SpawnRandomizer ();
 //		spawnedEnemies = GameObject.FindGameObjectsWithTag ("Enemy");
 	}
 
-	int waveCount;
-
 	void SpawnWave ()
 	{
-		spawnInterval -= Time.deltaTime; //count down spawn timer
-//		
-		if (spawnInterval <= 0 && killCount == waveCount) { //if spawn timer hits ZERO, spawn enemies.
-			for (int i = 0; i < Random.Range (1, 2); i++) {
-				enemies.Add (Instantiate (Resources.Load ("Prefabs/EnemyLvl2") as GameObject));
-//				enemies.Add (Instantiate (Resources.Load ("Prefabs/BasicEnemy") as GameObject));
-				killCount = 0;
-			}
-			spawnInterval = 1f;
-			waveCount = enemies.Count;
-		}	
+		for (int i = 0; i < waveCount; i++) {
+			enemies.Add (Instantiate (Resources.Load ("Prefabs/EnemyLvl2") as GameObject));
+//			enemies.Add (Instantiate (Resources.Load ("Prefabs/BasicEnemy") as GameObject));
+		}
+//			spawnInterval = 10f;	
 	}
 
 //	void SpawnFirstWave (){

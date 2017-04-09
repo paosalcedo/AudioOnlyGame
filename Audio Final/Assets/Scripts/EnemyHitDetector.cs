@@ -22,6 +22,7 @@ public class EnemyHitDetector : MonoBehaviour {
 	void Update ()
 	{
 		CheckForHit();
+		MoveEnemy();
 	}
 
 	void CheckForHit ()
@@ -33,5 +34,11 @@ public class EnemyHitDetector : MonoBehaviour {
 			Destroy(gameObject);
 		}
 	}
+
+	void MoveEnemy (){
+		enemySound.volume += 0.01f * Time.deltaTime;	
+	}
+
+	
 
 }
