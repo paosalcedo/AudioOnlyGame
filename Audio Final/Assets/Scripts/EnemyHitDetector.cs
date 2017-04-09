@@ -25,13 +25,19 @@ public class EnemyHitDetector : MonoBehaviour {
 		MoveEnemy();
 	}
 
+	bool isFiring;
 	void CheckForHit ()
 	{
-		if ((AttackScript.instance.attackPan - enemySound.panStereo) < precision && Input.GetMouseButtonDown(0)) {
+		if ((AttackScript.instance.attackPan - enemySound.panStereo) < precision &&
+		    AttackScript.instance.basicAttack.volume < enemySound.volume &&
+		    Input.GetMouseButtonDown (0)) {
 			//Destroy an enemy sound.
 			EnemySpawner.instance.killCount += 1;
-			EnemySpawner.instance.enemies.Remove(gameObject);
-			Destroy(gameObject);
+			EnemySpawner.instance.enemies.Remove (gameObject);
+			Destroy (gameObject);
+			isFiring = true;
+		} else if (!Input.GetMouseButtonDown (0)) {
+			isFiring = false;	
 		}
 	}
 

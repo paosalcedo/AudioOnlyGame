@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class AttackScript : MonoBehaviour {
 	
-	AudioSource basicAttack;
+	public AudioSource basicAttack;
 	public float attackPan; 
 	public float aimLockTimeReset; 
 	bool aimLockOn;
 	float aimLockTime;
+	public float attackVolume;
 	// Use this for initialization
 	
 	public static AttackScript instance;
 
 	void Start () {
 		basicAttack = GetComponent<AudioSource>();	
-		basicAttack.volume = 0;
+//		basicAttack.volume = 0;
 		aimLockOn = false;
 		if (instance == null) {
 			instance = this;
@@ -36,12 +37,14 @@ public class AttackScript : MonoBehaviour {
 			basicAttack.panStereo = attackPan;
 		} 
 
+		attackVolume = basicAttack.volume;
+
 		LockAim();
 	}
 
 	bool isFiring;
-	bool aimCountdownOn;
-	
+	bool aimCountdownOn;	
+
 	private void BasicAttack ()
 	{
 		if (Input.GetMouseButton (0) && !isFiring) {
@@ -59,12 +62,24 @@ public class AttackScript : MonoBehaviour {
 		}
 	}
 
-	
+//	this bool "projectileIsOut" is an attempt to make the sonic gun sound more like a projectile going farther and farther away from the player. 
+	bool projectileIsOut;
+
 	private void LockAim ()
 	{
 		if (aimCountdownOn == true) {		
 			aimLockTime -= Time.deltaTime;
- 		}
+//			projectileIsOut = true;
+		}
+
+//		if (projectileIsOut == true) {
+//			basicAttack.volume -= 0.10f * Time.deltaTime;
+//		} 
+
+//			if (basicAttack.volume <= 0.10f) {
+//			projectileIsOut = false; 
+////			basicAttack.volume = 0f;
+//		}
 
 		if (aimLockTime > 0 && aimCountdownOn) {
 			basicAttack.panStereo = Mathf.Clamp(basicAttack.panStereo, attackPan, attackPan);
