@@ -8,6 +8,7 @@ public class EnemyHitDetector : MonoBehaviour {
 	public float enemyPan;
 	[SerializeField] float precision;
 	AudioSource enemySound;
+	public static EnemyHitDetector instance;
 
 	// Use this for initialization
 	void Start () {
@@ -16,6 +17,13 @@ public class EnemyHitDetector : MonoBehaviour {
 		enemySound = GetComponent<AudioSource>();
 		enemySound.panStereo = enemyPan;
 		enemySound.volume = enemyVolume;
+//		SINGLETON
+//		if (instance == null) {
+//			instance = this;
+//			DontDestroyOnLoad (this);
+//		} else {
+//			Destroy(gameObject);
+//		}
 	}
 	
 	// Update is called once per frame
