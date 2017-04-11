@@ -93,5 +93,6 @@ public class AttackScript : MonoBehaviour {
 
 	public void PlayEnemyDeath(){
 		GameObject.Find("EnemyHitSoundHolder").SendMessage("PlayHitSound");
+		basicAttack.Stop();
 	}
 }

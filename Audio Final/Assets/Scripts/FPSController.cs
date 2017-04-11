@@ -98,39 +98,54 @@ public class FPSController : MonoBehaviour {
 	}
 
 	void MovePlayer(){
-
-		Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-		targetVelocity = transform.TransformDirection(targetVelocity);
-		targetVelocity *= speed;
-		// Apply a force that attempts to reach our target velocity
-		Vector3 velocity = rb.velocity;
-
-		Vector3 velocityChange = (targetVelocity - velocity);
-		velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-		velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-		velocityChange.y = 0;
-
-		if (grounded == true) {
-			rb.AddForce (velocityChange, ForceMode.VelocityChange);
+		if (Input.GetKey(KeyCode.W)) {
+			GameObject.Find ("GameManager").SendMessage ("PlayerIsMoving");	
+			//move enemies faster towards you.
+		} else {
+			GameObject.Find ("GameManager").SendMessage ("PlayerIsNotMoving");
+			//they slow down.
 		}
-
-		//jump
-		if (Input.GetButtonDown("Jump")) {
-			rb.velocity = new Vector3 (velocity.x, CalculateJumpVerticalSpeed (), velocity.z);
-			// play the jump sound.
-		}
-
-		//tweaking air control when jumping.
-		if (grounded == false) {
-			rb.AddForce (velocityChange, ForceMode.VelocityChange);
-		}
-
-		// We apply gravity manually for more tuning control
-		rb.AddForce(new Vector3 (0, -gravity * rb.mass, 0));
-
-		//		grounded = false;
-
 	}
+
+//	void MovePlayer ()
+//	{
+//		if (Input.GetAxis ("Vertical") != 0) {
+//			GameObject.Find ("GameManager").SendMessage ("PlayerIsMoving");
+//		} else {
+//			GameObject.Find ("GameManager").SendMessage ("PlayerIsNotMoving");
+//		}
+//		Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+//		targetVelocity = transform.TransformDirection(targetVelocity);
+//		targetVelocity *= speed;
+//		// Apply a force that attempts to reach our target velocity
+//		Vector3 velocity = rb.velocity;
+//
+//		Vector3 velocityChange = (targetVelocity - velocity);
+//		velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+//		velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+//		velocityChange.y = 0;
+//
+//		if (grounded == true) {
+//			rb.AddForce (velocityChange, ForceMode.VelocityChange);
+//		}
+//
+//		//jump
+//		if (Input.GetButtonDown("Jump")) {
+//			rb.velocity = new Vector3 (velocity.x, CalculateJumpVerticalSpeed (), velocity.z);
+//			// play the jump sound.
+//		}
+//
+//		//tweaking air control when jumping.
+//		if (grounded == false) {
+//			rb.AddForce (velocityChange, ForceMode.VelocityChange);
+//		}
+//
+//		// We apply gravity manually for more tuning control
+//		rb.AddForce(new Vector3 (0, -gravity * rb.mass, 0));
+//
+//		//		grounded = false;
+//
+//	}
 
 	void KillVolume(){
 		thisAudio.volume = 0f;

@@ -10,24 +10,29 @@ public class EnemySoundManager : MonoBehaviour {
 
 	void Start () {
 		voiceOver = GetComponent<AudioSource>();
+		PlayVoiceOver();
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		if (GetComponentInParent<AudioSource>().volume > 0.5f && !voiceOver.isPlaying) {
-			PlayVoiceOver(); 
-		}
+		//this cycles through all voice lines.
+//		if (GetComponentInParent<AudioSource>().volume > 0.5f && !voiceOver.isPlaying) {
+//			PlayVoiceOver(); 
+//		}
 	}
 
 
 	void PlayVoiceOver(){
-		int n = Random.Range(1, voiceClips.Length);
-		voiceOver.clip = voiceClips[n];
+
+		voiceOver.clip = voiceClips[0];
 		voiceOver.PlayOneShot(voiceOver.clip);
-		
-		voiceClips[n] = voiceClips[0];
-		voiceClips[0] = voiceOver.clip;
+//		int n = Random.Range(1, voiceClips.Length);
+//		voiceOver.clip = voiceClips[n];
+//		voiceOver.PlayOneShot(voiceOver.clip);
+//		
+//		voiceClips[n] = voiceClips[0];
+//		voiceClips[0] = voiceOver.clip;
 	}
 
 }

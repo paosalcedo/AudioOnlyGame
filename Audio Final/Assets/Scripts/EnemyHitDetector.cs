@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyHitDetector : MonoBehaviour {
 
@@ -17,6 +18,7 @@ public class EnemyHitDetector : MonoBehaviour {
 		enemySound = GetComponent<AudioSource>();
 		enemySound.panStereo = enemyPan;
 		enemySound.volume = enemyVolume;
+		enemySound.pitch = Random.Range(1f, 3f); 
 //		SINGLETON
 //		if (instance == null) {
 //			instance = this;
@@ -76,9 +78,23 @@ public class EnemyHitDetector : MonoBehaviour {
 			Destroy (gameObject);
 		} 
 	}
+	
+	int i = 0;
 
-	void MoveEnemy (){
+	void MoveEnemy ()
+	{
 		enemySound.volume += 0.05f * Time.deltaTime;	
+		if (enemySound.volume >= 1f) {
+			
+			if (!GameObject.Find ("GameOverSoundHolder").GetComponent<AudioSource> ().isPlaying) {
+				GameObject.Find ("GameOverSoundHolder").GetComponent<AudioSource> ().Play ();
+				i++;
+				if (i == 2) {
+					SceneManager.LoadScene("main");
+				} 
+//				SceneManager.LoadScene ("main");
+			}
+		}
 	}
 
 	
