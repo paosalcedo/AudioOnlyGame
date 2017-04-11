@@ -12,7 +12,7 @@ public class EnemyHitDetector : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		enemyPan = Random.Range(-1f, 1f);
-		enemyVolume = Random.Range(0f, 1f);	
+		enemyVolume = 0f;	
 		enemySound = GetComponent<AudioSource>();
 		enemySound.panStereo = enemyPan;
 		enemySound.volume = enemyVolume;
@@ -24,16 +24,44 @@ public class EnemyHitDetector : MonoBehaviour {
 		CheckForHit();
 		MoveEnemy();
 	}
-
-	bool isFiring;
+	
+	float panDifference;
 	void CheckForHit ()
+//**** NEW MOTORCYCLE VERSION *****
+//	{
+//		panDifference = MouseLook.instance.playerDir.panStereo - enemySound.panStereo;
+//		if (panDifference < 0) {
+//			panDifference *= -1f;
+//		} 
+//		
+//		Debug.Log(panDifference);
+//		
+//		if (panDifference < precision && 
+//		    enemySound.volume >= 1f) {
+//	
+//			AttackScript.instance.PlayEnemyDeath ();
+//			EnemySpawner.instance.killCount += 1;
+//			EnemySpawner.instance.enemies.Remove (gameObject);
+//	
+//			Destroy (gameObject);
+//		} 
+
+//		if (enemySound.volume >= 1f &&  
+//					panDifference > precision) {
+//			Debug.Log("Hit a wall!");
+//			GameObject.Find("ObstacleSoundHolder").SendMessage("PlayCollideSound");
+////			GameObject.Find("Player").SendMessage("KillVolume");
+//		}
+//	}
+//**** OLD CHECK FOR HIT *****
 	{
 		if ((AttackScript.instance.attackPan - enemySound.panStereo) < precision &&
 		    AttackScript.instance.basicAttack.volume < enemySound.volume 
-		    //&& Input.GetMouseButtonDown (0)
-			) 
+			&& AttackScript.instance.isFiring == true) 
 		{
 			//Destroy an enemy sound.
+			AttackScript.instance.PlayEnemyDeath();
+			AttackScript.instance.attackVolume = 0f;
 			EnemySpawner.instance.killCount += 1;
 			EnemySpawner.instance.enemies.Remove (gameObject);
 			
@@ -42,7 +70,7 @@ public class EnemyHitDetector : MonoBehaviour {
 	}
 
 	void MoveEnemy (){
-		enemySound.volume += 0.01f * Time.deltaTime;	
+		enemySound.volume += 0.05f * Time.deltaTime;	
 	}
 
 	

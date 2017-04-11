@@ -8,6 +8,7 @@ public class MouseLook : MonoBehaviour {
 	GameObject player;
 	Vector2 mouseLook;
 	Vector2 smoothV;
+	public AudioSource playerDir;
 
 	public float mouseLookX;
 	public float sensitivity = 1.0f;
@@ -19,6 +20,7 @@ public class MouseLook : MonoBehaviour {
 
 	void Start () {
 		player = GameObject.Find("Player");		
+		playerDir = player.GetComponent<AudioSource>();
 		character = this.transform.parent.gameObject;
 		if (instance == null) {
 			instance = this;
@@ -35,7 +37,7 @@ public class MouseLook : MonoBehaviour {
 //		player.GetComponent<AudioSource>().volume = remapRange(mouseLook.y, -90, 90, 0f, 1f);
 
 // Pan stereo signal based on mouseX.
-		player.GetComponent<AudioSource>().panStereo = remapRange(mouseLook.x, -90, 90, -1f, 1f);
+		playerDir.panStereo = remapRange(mouseLook.x, -90, 90, -1f, 1f);
 
 		Vector2 mousePos = new Vector2 (Input.GetAxisRaw ("Mouse X"), Input.GetAxisRaw ("Mouse Y"));
 

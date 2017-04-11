@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FPSController : MonoBehaviour {
 
-	AudioSource thisAudio;
+	public AudioSource thisAudio;
 	public float speed = 10.0f;
 	public float airControl = 0.1f;
 	public float gravity = 10.0f;
@@ -56,7 +56,7 @@ public class FPSController : MonoBehaviour {
 //Adjust pitch based on WASD movement.
 //		thisAudio.pitch = remapRange(rb.velocity.magnitude, 0, 10, 0f, 1.5f);
 		thisAudio.pitch = AudioDirector.remapRange(rb.velocity.magnitude, 0, 10, 0f, 1.5f);
-		thisAudio.pitch = Mathf.Clamp(thisAudio.pitch, 0f, 1.45f);
+		thisAudio.pitch = Mathf.Clamp(thisAudio.pitch, 0.45f, 1.45f);
 	}
 	// Update is called once per frame
 
@@ -130,6 +130,10 @@ public class FPSController : MonoBehaviour {
 
 		//		grounded = false;
 
+	}
+
+	void KillVolume(){
+		thisAudio.volume = 0f;
 	}
 
 	float remapRange(float oldValue, float oldMin, float oldMax, float newMin, float newMax )

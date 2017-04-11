@@ -42,7 +42,7 @@ public class AttackScript : MonoBehaviour {
 		LockAim();
 	}
 
-	bool isFiring;
+	public bool isFiring;
 	bool aimCountdownOn;	
 
 	private void BasicAttack ()
@@ -89,5 +89,9 @@ public class AttackScript : MonoBehaviour {
 			isFiring = false;
 			aimLockTime = aimLockTimeReset;
 		}
+	}
+
+	public void PlayEnemyDeath(){
+		GameObject.Find("EnemyHitSoundHolder").SendMessage("PlayHitSound");
 	}
 }

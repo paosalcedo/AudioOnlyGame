@@ -22,7 +22,7 @@ public class EnemySpawner : MonoBehaviour {
 //		SpawnFirstWave();
 //		spawnInterval = 1f;
 		killCount = 0;
-		waveCount = 1;
+		waveCount = 1;  
 		SpawnWave();
   		if (instance == null) {
 			instance = this;
@@ -35,7 +35,7 @@ public class EnemySpawner : MonoBehaviour {
 	void Update ()
 	{
 		if (killCount == waveCount) {
-			waveCount = Random.Range(1, 5);
+			waveCount = 1;
 			Invoke("SpawnWave", 5f);
 			killCount = 0;
 		}
